@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 
-from flask import Flask, send_from_directory
-from methods.euler import method, options
+from flask import Flask, render_template
+from methods.fetch import fetch_methods
 
 app = Flask(__name__,
             static_url_path='',
-            static_folder='static',)
+            static_folder='static',
+            template_folder='templates')
 
 
 @app.route('/')
 def index():
-    method()
-    print(options(0), options(1))
-    return send_from_directory('static', 'index.html')
+    methods = fetch_methods()
+    method_names = methods.keys()
+    print(method_names)
+    return render_template('index.html', context={'methods': methods})
 
 
 if __name__ == '__main__':
