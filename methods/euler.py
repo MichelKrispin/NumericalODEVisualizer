@@ -1,16 +1,32 @@
-def method(f, y, options):
-    """Very interesting function
+import numpy as np
+from typing import Callable, List, Optional
+
+
+def method(f: Callable, y0: float, t0: float, te: float, options: Optional[dict] = None) -> List[float]:
+    """Simple explicit euler method from [t0, te] with y(t0) = y0 and f(t, y) = y'.
 
     Args:
-        f (_type_): _description_
-        y (_type_): _description_
-        options (_type_): _description_
+        f (Callable): f(t, y) = y'(t)
+        y0 (float): Initial value
+        t0 (float): Left boundary
+        te (float): Right boundary
+        options (Optional[dict], optional): An optionial options dictionary.
 
     Returns:
-        _type_: _description_
+        List[float]:  The computed y values.
     """
     print('Calling the euler method')
-    return [0, 1, 2, 3, 4, 5]
+    # Get the step size from the options
+    h = options['data'] if options else 0.1
+    t = np.arange(t0, te, h)  # Create the t values
+    y = np.zeros(t.shape)     # Create the resulting y values
+    y[0] = y0                 # Store the initial value
+    for n in range(len(t)-1):
+        y[n+1] = y[n] + f(t[n], y[n]) * h
+    return y.tolist()
 
 
-options = [{'name': 'First option', 'data': ['arbitrary']}]
+options = [
+    {'name': 'Step Size (h): 0.001', 'data': 0.001},
+    {'name': 'Step Size (h): 0.0001', 'data': 0.0001},
+]

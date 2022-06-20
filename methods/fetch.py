@@ -13,9 +13,6 @@ def fetch_methods():
         if name != 'fetch':
             full_name = package.__name__ + '.' + name
             submodules[name] = importlib.import_module(full_name)
-    print('Submodules are:')
-    for k in submodules.keys():
-        print(f'{k}: {submodules[k]}')
 
     methods = {}
     for module in submodules.keys():
@@ -26,5 +23,4 @@ def fetch_methods():
                 methods[module]['method'] = f
             elif name == 'options':
                 methods[module]['options'] = f
-    print(methods)
     return methods
