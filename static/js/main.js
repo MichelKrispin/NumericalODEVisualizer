@@ -1,7 +1,7 @@
-import { createPlot } from './plot.js';
-import { initUpdatingUI } from './ui.js';
+import { initUpdatingSelectionUI } from './ui.js';
+import { initConnection } from './connection.js';
 
 ('use strict');
 
-createPlot();
-initUpdatingUI();
+initUpdatingSelectionUI();
+initConnection();

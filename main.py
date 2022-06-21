@@ -17,5 +17,12 @@ def index():
     return render_template('index.html', methods=methods)
 
 
+@app.route('/compute', methods=['POST'])
+def compute():
+    xs = np.linspace(0, 2*np.pi, 100)
+    ys = np.cos(ys)
+    return jsonify({'x': xs, 'y': ys})
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8000)

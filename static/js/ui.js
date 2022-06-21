@@ -24,7 +24,7 @@ const updateSelectOption = (event) => {
   }
 };
 
-export const initUpdatingUI = () => {
+export const initUpdatingSelectionUI = () => {
   // Bind the update method
   const methodSelection = document.getElementById('select-method');
   methodSelection.onchange = (event) => {
