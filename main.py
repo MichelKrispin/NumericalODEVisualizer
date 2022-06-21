@@ -13,7 +13,7 @@ app = Flask(__name__,
 def index():
     methods = fetch_methods()
     method_names = methods.keys()
-    print(method_names)
+    print(methods)
     return render_template('index.html', methods=methods)
 
 

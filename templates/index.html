@@ -27,15 +27,31 @@
 
     <div class="p-6 flex flex-row gap-4">
       <div class="p-6 w-1/4 rounded shadow-lg flex items-center space-x-4">
-        <div class="text-xl font-medium text-black">Methods</div>
-        <div class="flex justify-center">
-          <select
-            class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-          >
-            {% for method in methods %}
-            <option value="{{ method }}">{{ method | capitalize}}</option>
-            {% endfor %}
-          </select>
+        <div class="p-4 flex flex-col gap-4">
+          <div class="text-xl font-medium text-black">Methods</div>
+          <div class="flex justify-center">
+            <select
+              id="select-method"
+              class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            >
+              {% for method in methods %}
+              <option value="{{ method }}">{{ method | capitalize }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="text-l font-medium text-black">Options</div>
+          <div class="flex justify-center">
+            <select
+              id="select-option"
+              class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            >
+              {% for key, item in methods.items() %} {% for option in
+              item['options'] %}
+              <option value="{{ key }}">{{ option.name }}</option>
+              {% endfor %} {% endfor %}
+            </select>
+          </div>
         </div>
       </div>
       <div class="p-6 w-3/4 rounded shadow-lg flex items-center space-x-4">
@@ -44,5 +60,5 @@
     </div>
   </body>
   <script src="https://cdn.plot.ly/plotly-2.12.1.min.js"></script>
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </html>
