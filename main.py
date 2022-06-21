@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-
-from flask import Flask, render_template
+import numpy as np
+from flask import Flask, jsonify, render_template, request
 from methods.fetch import fetch_methods
 
 app = Flask(__name__,
@@ -19,9 +19,13 @@ def index():
 
 @app.route('/compute', methods=['POST'])
 def compute():
-    xs = np.linspace(0, 2*np.pi, 100)
-    ys = np.cos(ys)
-    return jsonify({'x': xs, 'y': ys})
+    print(request.json)
+    result = {'x': [], 'y': [], 'y_true': []}
+    xs = np.linspace(0, 2*np.pi, 20)
+    result['x'] = xs.tolist()
+    result['y'] = np.cos(xs).tolist()
+    result['y_true'] = np.sin(xs).tolist()
+    return jsonify(result)
 
 
 if __name__ == '__main__':

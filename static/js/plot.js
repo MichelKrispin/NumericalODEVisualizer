@@ -1,3 +1,5 @@
+//import { callPlotly } from './exportPlotly.js';
+
 ('use strict');
 
 let plotCreated = false;
@@ -7,10 +9,11 @@ let layout = {
 
 const updatePlot = (data) => {
   if (!plotCreated) {
-    plotly = Plotly.newPlot('plot', data, layout);
+    Plotly.newPlot('plot', data, layout);
     plotCreated = true;
   } else {
-    Plotly.update('plot,', data, layout);
+    Plotly.deleteTraces('plot', [-2, -1]);
+    Plotly.addTraces('plot', data);
   }
 };
 
@@ -19,18 +22,18 @@ const updatePlot = (data) => {
  * @param {Array[float]} xs
  * @param {Array[float]} ys
  */
-export const plot = (xs, ys) => {
+export const plot = (x, y, yTrue) => {
   // Generate the data structures
   const approximation = {
-    x: xs,
-    y: ys,
+    x: x,
+    y: y,
     mode: 'lines',
     name: 'Approximation',
   };
 
   const solution = {
-    x: xs,
-    y: ys + 0.1,
+    x: x,
+    y: yTrue,
     mode: 'lines',
     name: 'Solution',
   };

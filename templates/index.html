@@ -48,7 +48,9 @@
             >
               {% for key, item in methods.items() %} {% for option in
               item['options'] %}
-              <option value="{{ key }}">{{ option.name }}</option>
+              <option value="{{ key }}-{{ loop.index-1}}">
+                {{ option.name }}
+              </option>
               {% endfor %} {% endfor %}
             </select>
           </div>
@@ -60,6 +62,7 @@
       </div>
     </div>
   </body>
-  <script src="https://cdn.plot.ly/plotly-2.12.1.min.js"></script>
+  <!-- <script type="module" src="https://cdn.plot.ly/plotly-2.12.1.min.js"></script> -->
+  <script src="js/Plotly.js"></script>
   <script type="module" src="js/main.js"></script>
 </html>
