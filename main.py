@@ -14,7 +14,7 @@ def index():
     methods = fetch_methods()
     method_names = methods.keys()
     print(method_names)
-    return render_template('index.html', context={'methods': methods})
+    return render_template('index.html', methods=methods)
 
 
 if __name__ == '__main__':
