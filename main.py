@@ -26,6 +26,7 @@ def compute():
     method_data = fetch_methods()[method_name]
     method = method_data['method']
     option = method_data['options'][request.json['option']]
+    print(option)
     y0 = request.json['y0']
     t0 = request.json['t0']
     te = request.json['te']

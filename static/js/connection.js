@@ -4,15 +4,27 @@ import { getSelections } from './ui.js';
 ('use strict');
 
 const computePlots = () => {
-  const [
-    functionSelection,
+  let functionSelection,
     solutionSelection,
     y0Selection,
     t0Selection,
     teSelection,
     methodSelection,
-    optionSelection,
-  ] = getSelections();
+    optionSelection;
+  try {
+    [
+      functionSelection,
+      solutionSelection,
+      y0Selection,
+      t0Selection,
+      teSelection,
+      methodSelection,
+      optionSelection,
+    ] = getSelections();
+  } catch (error) {
+    alert(error);
+    return;
+  }
 
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '/compute', true);
