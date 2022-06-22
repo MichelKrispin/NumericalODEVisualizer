@@ -1,5 +1,10 @@
 ('use strict');
 
+const FUNCTION_ID = 'select-function';
+const SOLUTION_ID = 'select-solution';
+const Y0_ID = 'select-y0';
+const T0_ID = 'select-t0';
+const TE_ID = 'select-te';
 const METHOD_ID = 'select-method';
 const OPTION_ID = 'select-option';
 
@@ -31,13 +36,26 @@ const updateSelectOption = (event) => {
  * Queries the selection divs.
  * @returns The values of the selection divs, [string, int]
  */
-export const getSelection = () => {
+export const getSelections = () => {
+  const functionSelection = document.getElementById(FUNCTION_ID).value;
+  const solutionSelection = document.getElementById(SOLUTION_ID).value;
+  const y0Selection = parseFloat(document.getElementById(Y0_ID).value);
+  const t0Selection = parseFloat(document.getElementById(T0_ID).value);
+  const teSelection = parseFloat(document.getElementById(TE_ID).value);
   const methodSelection = document.getElementById(METHOD_ID).value;
   const optionSelection = parseInt(
     document.getElementById(OPTION_ID).value.split('-')[1]
   );
-  // Select the first visible children
-  return [methodSelection, optionSelection];
+
+  return [
+    functionSelection,
+    solutionSelection,
+    y0Selection,
+    t0Selection,
+    teSelection,
+    methodSelection,
+    optionSelection,
+  ];
 };
 
 export const initUpdatingSelectionUI = () => {

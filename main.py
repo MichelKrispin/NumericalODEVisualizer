@@ -20,11 +20,24 @@ def index():
 @app.route('/compute', methods=['POST'])
 def compute():
     print(request.json)
-    result = {'x': [], 'y': [], 'y_true': []}
-    xs = np.linspace(0, 2*np.pi, 20)
-    result['x'] = xs.tolist()
-    result['y'] = np.cos(xs).tolist()
-    result['y_true'] = np.sin(xs).tolist()
+
+    # Fetch the selected values
+    method_name = request.json['method']
+    method_data = fetch_methods()[method_name]
+    method = method_data['method']
+    option = method_data['options'][request.json['option']]
+    y0 = request.json['y0']
+    t0 = request.json['t0']
+    te = request.json['te']
+
+    # Some dummy funtions
+    def function(t, y): return 2 - np.exp(-4*t) - 2*y
+    def solution(t): return 1 + 1/2 * np.exp(-4*t) - 1/2 * np.exp(-2*t)
+
+    # Compute the approximation and solution
+    t, y = method(function, y0, t0, te, option)
+    # Create the results and return them
+    result = {'t': t, 'y': y, 'y_true': solution(np.array(t)).tolist()}
     return jsonify(result)
 
 

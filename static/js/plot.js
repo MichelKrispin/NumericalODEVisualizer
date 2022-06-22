@@ -4,7 +4,15 @@
 
 let plotCreated = false;
 let layout = {
-  title: 'Comparison plot',
+  xaxis: { title: 't' },
+  yaxis: { title: "y'" },
+  showLegend: true,
+  legend: {
+    orientation: 'h',
+    x: 0.3,
+    xanchor: 'top',
+    y: 1.1,
+  },
 };
 
 const updatePlot = (data) => {
@@ -22,17 +30,17 @@ const updatePlot = (data) => {
  * @param {Array[float]} xs
  * @param {Array[float]} ys
  */
-export const plot = (x, y, yTrue) => {
+export const plot = (t, y, yTrue) => {
   // Generate the data structures
   const approximation = {
-    x: x,
+    x: t,
     y: y,
     mode: 'lines',
     name: 'Approximation',
   };
 
   const solution = {
-    x: x,
+    x: t,
     y: yTrue,
     mode: 'lines',
     name: 'Solution',
