@@ -6,10 +6,13 @@
     <meta name="description" content="description" />
     <meta name="author" content="author" />
     <meta name="keywords" content="keywords" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit/uikit.min.js"></script>
+    <script src="js/uikit/uikit-icons.min.js"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <style type="text/css">
-      .body {
-        width: auto;
+      body {
+        height: 100vh;
       }
 
       .dropdown:hover .dropdown-menu {
@@ -18,97 +21,129 @@
     </style>
   </head>
   <body>
-    <div class="p-4 w-full flex items-center">
-      <div class="w-full">
-        <h1 class="text-center text-3xl font-bold">
-          Numerical Ordinary Differential Equations Solver
-        </h1>
-      </div>
-    </div>
-
-    <div class="flex flex-row gap-4">
-      <div class="p-6 w-1/4 rounded shadow-lg flex items-center space-x-4">
-        <div class="p-4 flex flex-col gap-4">
-          <div class="text-xl font-medium text-black">Function</div>
-          <div class="flex justify-center">
-            <input
-              class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="select-function"
-              type="text"
-              placeholder="Function"
-              value="2-exp(-4*t)-2*y"
-            />
-          </div>
-          <div class="text-xl font-medium text-black">Solution</div>
-          <div class="flex justify-center">
-            <input
-              class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="select-solution"
-              type="text"
-              placeholder="Solution"
-              value="1 + 1/2 * exp(-4*t) - 1/2 * exp(-2*t)"
-            />
+    <div class="uk-height-1-1 uk-padding uk-background-muted">
+      <div class="uk-container uk-container-expand">
+        <!-- Title -->
+        <div uk-grid>
+          <div class="uk-width-1-1">
+            <h1 class="uk-heading uk-heading-line uk-text-center">
+              <span> Numerical Ordinary Differential Equations Solver </span>
+            </h1>
           </div>
 
-          <div class="text-xl font-medium text-black">Parameters</div>
-          <div class="flex justify-center">
-            <input
-              class="form-select form-select-sm appearance-none block w-1/3 px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="select-y0"
-              type="number"
-              placeholder="y0"
-            /><input
-              class="form-select form-select-sm appearance-none block w-1/3 px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="select-t0"
-              type="number"
-              placeholder="t0"
-            /><input
-              class="form-select form-select-sm appearance-none block w-1/3 px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="select-te"
-              type="number"
-              placeholder="te"
-            />
+          <!-- Dashboard -->
+          <div class="uk-width-1-3" uk-grid>
+            <div>
+              <div class="uk-card uk-card-body uk-card-default uk-text-right">
+                <div class="uk-child width-1-1" uk-grid>
+                  <!-- Selections -->
+                  <div class="uk-child-width-1-4" uk-grid>
+                    <!-- Function -->
+                    <div>Function</div>
+                    <div class="uk-width-3-4">
+                      <input
+                        uk-tooltip="title: The ode: f(t, y) = y'(t)"
+                        class="uk-input"
+                        id="select-function"
+                        type="text"
+                        placeholder="Function"
+                        value="2-exp(-4*t)-2*y"
+                      />
+                    </div>
+
+                    <div>Solution</div>
+                    <div class="uk-width-3-4">
+                      <input
+                        uk-tooltip="title: The analytical solution (if known)"
+                        class="uk-input"
+                        id="select-solution"
+                        type="text"
+                        placeholder="Solution"
+                        value="1 + 1/2 * exp(-4*t) - 1/2 * exp(-2*t)"
+                      />
+                    </div>
+
+                    <div>Parameters</div>
+
+                    <div class="uk-width-3-4 uk-child-width-1-3" uk-grid>
+                      <div>
+                        <input
+                          uk-tooltip="title: The initial y(0)"
+                          class="uk-input"
+                          id="select-y0"
+                          type="number"
+                          placeholder="y0"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          uk-tooltip="title: The left domain beginning"
+                          class="uk-input"
+                          id="select-t0"
+                          type="number"
+                          placeholder="t0"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          uk-tooltip="title: The right domain end"
+                          class="uk-input"
+                          id="select-te"
+                          type="number"
+                          placeholder="te"
+                        />
+                      </div>
+                    </div>
+
+                    <div>Methods</div>
+                    <div class="uk-width-3-4">
+                      <select id="select-method" class="uk-select">
+                        {% for method in methods %}
+                        <option value="{{ method }}">
+                          {{ method | capitalize }}
+                        </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div>Options</div>
+                    <div class="uk-width-3-4">
+                      <select id="select-option" class="uk-select">
+                        {% for key, item in methods.items() %} {% for option in
+                        item['options'] %}
+                        <option value="{{ key }}-{{ loop.index-1}}">
+                          {{ option.name }}
+                        </option>
+                        {% endfor %} {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <!-- /Selection -->
+
+                  <div class="uk-padding-top uk-width-1-1">
+                    <button
+                      class="uk-width-1-1 uk-button uk-button-default"
+                      id="compute-button"
+                    >
+                      Compute
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="text-xl font-medium text-black">Methods</div>
-          <div class="flex justify-center">
-            <select
-              id="select-method"
-              class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            >
-              {% for method in methods %}
-              <option value="{{ method }}">{{ method | capitalize }}</option>
-              {% endfor %}
-            </select>
+          <!-- Plot Div -->
+          <div class="uk-width-2-3">
+            <div class="uk-card uk-card-body uk-card-default">
+              <div id="plot" style="height: 100%; width: 100%"></div>
+            </div>
           </div>
-
-          <div class="text-l font-medium text-black">Options</div>
-          <div class="flex justify-center">
-            <select
-              id="select-option"
-              class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            >
-              {% for key, item in methods.items() %} {% for option in
-              item['options'] %}
-              <option value="{{ key }}-{{ loop.index-1}}">
-                {{ option.name }}
-              </option>
-              {% endfor %} {% endfor %}
-            </select>
-          </div>
-          <button
-            id="compute-button"
-            class="form-select form-select-sm appearance-none block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-          >
-            Compute
-          </button>
         </div>
-      </div>
-      <div class="p-6 w-3/4 rounded shadow-lg flex items-center space-x-4">
-        <div id="plot" style="height: 100%; width: 100%"></div>
       </div>
     </div>
   </body>
+
   <script src="js/Plotly.js"></script>
   <script type="module" src="js/main.js"></script>
 </html>
