@@ -1,8 +1,8 @@
 import numpy as np
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Tuple
 
 
-def method(f: Callable, y0: float, t0: float, te: float, options: Optional[dict] = None) -> tuple[List[float], List[float]]:
+def method(f: Callable, y0: float, t0: float, te: float, options: Optional[dict] = None) -> Tuple[List[float], List[float]]:
     """Simple explicit euler method from [t0, te] with y(t0) = y0 and f(t, y) = y'.
 
     Args:
@@ -15,7 +15,7 @@ def method(f: Callable, y0: float, t0: float, te: float, options: Optional[dict]
     Returns:
         Tuple(List[float], List[float]):  The computed t and y values.
     """
-    print('Calling the euler method')
+    print('Calling the euler method', options['data'])
     # Get the step size from the options
     h = options['data'] if options else 0.1
     t = np.arange(t0, te, h)  # Create the t values

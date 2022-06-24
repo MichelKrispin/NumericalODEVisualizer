@@ -37,6 +37,7 @@ const updateSelectOption = (event) => {
  * @returns The values of the selection divs, [string, int]
  */
 export const getSelections = () => {
+  // Get div elements
   const functionSelection = document.getElementById(FUNCTION_ID).value;
   const solutionSelection = document.getElementById(SOLUTION_ID).value;
   const y0Selection = parseFloat(document.getElementById(Y0_ID).value);
@@ -47,6 +48,27 @@ export const getSelections = () => {
     document.getElementById(OPTION_ID).value.split('-')[1]
   );
 
+  // Check values for correct type
+  if (!functionSelection || typeof functionSelection !== 'string') {
+    throw 'Function must be a string';
+  }
+  if (!solutionSelection || typeof solutionSelection !== 'string') {
+    throw 'Solution must be a string';
+  }
+  if (
+    isNaN(y0Selection) ||
+    typeof y0Selection !== 'number' ||
+    isNaN(t0Selection) ||
+    typeof t0Selection !== 'number' ||
+    isNaN(teSelection) ||
+    typeof teSelection !== 'number'
+  ) {
+    throw 'y0, t0 and te must be a valid number';
+  } else {
+    if (t0Selection >= teSelection) {
+      throw 't0 must be smaller than te';
+    }
+  }
   return [
     functionSelection,
     solutionSelection,
