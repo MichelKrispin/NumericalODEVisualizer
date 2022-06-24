@@ -33,7 +33,9 @@
           <!-- Dashboard -->
           <div class="uk-width-1-3" uk-grid>
             <div>
-              <div class="uk-card uk-card-body uk-card-default uk-text-right">
+              <div
+                class="uk-card uk-card-body uk-card-default uk-card-hover uk-text-right"
+              >
                 <div class="uk-child width-1-1" uk-grid>
                   <!-- Selections -->
                   <div class="uk-child-width-1-4" uk-grid>
@@ -64,7 +66,10 @@
 
                     <div>Parameters</div>
 
-                    <div class="uk-width-3-4 uk-child-width-1-3" uk-grid>
+                    <div
+                      class="uk-grid-collapse uk-width-3-4 uk-child-width-1-3"
+                      uk-grid
+                    >
                       <div>
                         <input
                           uk-tooltip="title: The initial y(0)"
@@ -129,6 +134,62 @@
                     >
                       Compute
                     </button>
+                    <hr />
+                    <div
+                      class="uk-panel uk-panel-scrollable uk-align-center uk-height-small"
+                    >
+                      <ul class="uk-list uk-list-divider uk-text-left">
+                        <li>
+                          <button class="uk-button uk-width-1-1">
+                            <span class="uk-text-lowercase"
+                              >2-exp(-4*t)-2*y</span
+                            >
+                          </button>
+                        </li>
+                        <li>
+                          <button class="uk-button uk-width-1-1">
+                            <span class="uk-text-lowercase"
+                              >2-exp(-4*t)-2*y</span
+                            >
+                          </button>
+                        </li>
+                        <li>
+                          <button class="uk-button uk-width-1-1">
+                            <span class="uk-text-lowercase"
+                              >2-exp(-4*t)-2*y</span
+                            >
+                          </button>
+                        </li>
+                        <li>
+                          <button class="uk-button uk-width-1-1">
+                            <span class="uk-text-lowercase"
+                              >2-exp(-4*t)-2*y</span
+                            >
+                          </button>
+                        </li>
+                        <li>
+                          <button class="uk-button uk-width-1-1">
+                            <span class="uk-text-lowercase"
+                              >2-exp(-4*t)-2*y</span
+                            >
+                          </button>
+                        </li>
+                        <li>
+                          <button class="uk-button uk-width-1-1">
+                            <span class="uk-text-lowercase"
+                              >2-exp(-4*t)-2*y</span
+                            >
+                          </button>
+                        </li>
+                        <li>
+                          <button class="uk-button uk-width-1-1">
+                            <span class="uk-text-lowercase"
+                              >2-exp(-4*t)-2*y</span
+                            >
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -137,7 +198,7 @@
 
           <!-- Plot Div -->
           <div class="uk-width-2-3">
-            <div class="uk-card uk-card-body uk-card-default">
+            <div class="uk-card uk-card-body uk-card-default uk-card-hover">
               <div id="plot" style="height: 100%; width: 100%"></div>
             </div>
           </div>
