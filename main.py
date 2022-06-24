@@ -4,13 +4,13 @@ from flask import Flask, jsonify, render_template, request
 from methods.fetch import fetch_methods
 
 
-def run_function_and_solution(function, solution):
+def create_functions(function, solution):
     code = ('from numpy import *\n'
             'def function(t, y):\n'
             f'    return {function}\n'
-            'def solution(y):\n'
+            'def solution(t):\n'
             f'    return {solution}\n')
-    exec(code)
+    exec(code, globals())
 
 
 app = Flask(__name__,
@@ -36,20 +36,15 @@ def compute():
     method_data = fetch_methods()[method_name]
     method = method_data['method']
     option = method_data['options'][request.json['option']]
-    print(option)
     y0 = request.json['y0']
     t0 = request.json['t0']
     te = request.json['te']
-
-    # TODO: TEST THISc
-    run_function_and_solution(
+    create_functions(
         request.json['function'], request.json['solution'])
-    # Some dummy funtions
-    # def function(t, y): return 2 - np.exp(-4*t) - 2*y
-    # def solution(t): return 1 + 1/2 * np.exp(-4*t) - 1/2 * np.exp(-2*t)
 
     # Compute the approximation and solution
     t, y = method(function, y0, t0, te, option)
+
     # Create the results and return them
     result = {'t': t, 'y': y, 'y_true': solution(np.array(t)).tolist()}
     return jsonify(result)
