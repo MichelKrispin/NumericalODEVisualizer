@@ -2,6 +2,7 @@
 import numpy as np
 from flask import Flask, jsonify, render_template, request
 from methods.fetch import fetch_methods
+from examples import examples
 
 
 def create_functions(function, solution):
@@ -24,7 +25,12 @@ def index():
     methods = fetch_methods()
     method_names = methods.keys()
     print(methods)
-    return render_template('index.html', methods=methods)
+    return render_template('index.html', methods=methods, examples=examples)
+
+
+@app.route('/get-examples')
+def get_examples():
+    return jsonify(examples)
 
 
 @app.route('/compute', methods=['POST'])

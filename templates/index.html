@@ -137,57 +137,19 @@
                     <hr />
                     <div
                       class="uk-panel uk-panel-scrollable uk-align-center uk-height-small"
+                      uk-tooltip="Example functions"
                     >
                       <ul class="uk-list uk-list-divider uk-text-left">
+                        {% for example in examples %}
                         <li>
-                          <button class="uk-button uk-width-1-1">
-                            <span class="uk-text-lowercase"
-                              >2-exp(-4*t)-2*y</span
-                            >
+                          <button
+                            id="btn-example-{{ loop.index-1 }}"
+                            class="uk-button uk-width-1-1 uk-text-lowercase"
+                          >
+                            {{ example.function }}
                           </button>
                         </li>
-                        <li>
-                          <button class="uk-button uk-width-1-1">
-                            <span class="uk-text-lowercase"
-                              >2-exp(-4*t)-2*y</span
-                            >
-                          </button>
-                        </li>
-                        <li>
-                          <button class="uk-button uk-width-1-1">
-                            <span class="uk-text-lowercase"
-                              >2-exp(-4*t)-2*y</span
-                            >
-                          </button>
-                        </li>
-                        <li>
-                          <button class="uk-button uk-width-1-1">
-                            <span class="uk-text-lowercase"
-                              >2-exp(-4*t)-2*y</span
-                            >
-                          </button>
-                        </li>
-                        <li>
-                          <button class="uk-button uk-width-1-1">
-                            <span class="uk-text-lowercase"
-                              >2-exp(-4*t)-2*y</span
-                            >
-                          </button>
-                        </li>
-                        <li>
-                          <button class="uk-button uk-width-1-1">
-                            <span class="uk-text-lowercase"
-                              >2-exp(-4*t)-2*y</span
-                            >
-                          </button>
-                        </li>
-                        <li>
-                          <button class="uk-button uk-width-1-1">
-                            <span class="uk-text-lowercase"
-                              >2-exp(-4*t)-2*y</span
-                            >
-                          </button>
-                        </li>
+                        {% endfor %}
                       </ul>
                     </div>
                   </div>

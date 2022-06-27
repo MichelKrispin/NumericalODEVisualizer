@@ -1,3 +1,5 @@
+import { getExampleData } from './connection.js';
+
 ('use strict');
 
 const FUNCTION_ID = 'select-function';
@@ -88,4 +90,29 @@ export const initUpdatingSelectionUI = () => {
   };
   // Then call it once on initialization
   updateSelectOption(methodSelection.value);
+};
+
+export const initExampleButtons = () => {
+  // Ask the server for the example data
+  getExampleData((exampleData) => {
+    const onClickFn = (index) => {
+      return () => {
+        const data = exampleData[index];
+        document.getElementById('select-function').value = data['function'];
+        document.getElementById('select-solution').value = data['solution'];
+        document.getElementById('select-y0').value = parseFloat(data['y0']);
+        document.getElementById('select-t0').value = parseFloat(data['t0']);
+        document.getElementById('select-te').value = parseFloat(data['te']);
+      };
+    };
+
+    const buttonIdTemplate = 'btn-example-';
+    let button;
+    // Loop trough all example buttons and set their click function
+    let idx = 0;
+    while ((button = document.getElementById(buttonIdTemplate + idx))) {
+      button.onclick = onClickFn(idx);
+      idx++;
+    }
+  });
 };
