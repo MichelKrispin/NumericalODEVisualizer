@@ -1,6 +1,17 @@
 import { getExampleData } from './connection.js';
+import {
+  showFirstStep,
+  showNextStep,
+  showLastStep,
+  showLatestStep,
+  showStepAt,
+} from './plot.js';
 
 ('use strict');
+
+// =========================================================
+//                 Selection Dropdowns
+// =========================================================
 
 const FUNCTION_ID = 'select-function';
 const SOLUTION_ID = 'select-solution';
@@ -82,6 +93,9 @@ export const getSelections = () => {
   ];
 };
 
+/**
+ * Set the onchange function for the method selection dropdown.
+ */
 export const initUpdatingSelectionUI = () => {
   // Bind the update method
   const methodSelection = document.getElementById(METHOD_ID);
@@ -92,6 +106,47 @@ export const initUpdatingSelectionUI = () => {
   updateSelectOption(methodSelection.value);
 };
 
+// =========================================================
+//                     Plot Control
+// =========================================================
+
+/**
+ * Set the onclick and onchange functions for the plot control.
+ */
+export const initPlotControlUI = () => {
+  // The current step value as an input
+  document.getElementById('control-current-step').onchange = () => {
+    const currentStep = document.getElementById('control-current-step').value;
+    showStepAt(currentStep);
+  };
+
+  // The control buttons
+  document.getElementById('control-forward').onclick = () => {
+    showNextStep();
+  };
+  document.getElementById('control-backwards').onclick = () => {
+    showLastStep();
+  };
+  document.getElementById('control-first').onclick = () => {
+    showFirstStep();
+  };
+  document.getElementById('control-last').onclick = () => {
+    showLatestStep();
+  };
+};
+
+export const updatePlotControlInfo = (currentStep, maxStep) => {
+  document.getElementById('control-current-step').value = currentStep;
+  document.getElementById('control-num-steps').innerHTML = maxStep;
+};
+
+// =========================================================
+//                    Example Buttons
+// =========================================================
+
+/**
+ * Initialize the example buttons with the correct callback functions.
+ */
 export const initExampleButtons = () => {
   // Ask the server for the example data
   getExampleData((exampleData) => {

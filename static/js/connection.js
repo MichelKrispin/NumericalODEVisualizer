@@ -1,4 +1,4 @@
-import { plot } from './plot.js';
+import { updatePlotData } from './plot.js';
 import { getSelections } from './ui.js';
 
 ('use strict');
@@ -31,7 +31,7 @@ const computePlots = () => {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       const data = JSON.parse(xhr.response);
-      plot(data['t'], data['y'], data['y_true']);
+      updatePlotData(data['t'], data['y'], data['y_true']);
     }
   };
   xhr.setRequestHeader('Content-Type', 'application/json');

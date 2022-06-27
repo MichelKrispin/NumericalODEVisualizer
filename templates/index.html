@@ -186,17 +186,49 @@
                   class="uk-grid-collapse uk-child-width-expand@s uk-text-center"
                   uk-grid
                 >
-                  <button class="uk-button"><-</button>
-                  <button class="uk-button">-></button>
-                  <button class="uk-button"><<</button>
-                  <button class="uk-button">>></button>
-                  <div>
-                    <input
-                      class="uk-text-center"
-                      uk-tooltip="Selected Time Step"
-                      value="5"
-                    />
-                    <div uk-tooltip="Number of Timesteps">of 10</div>
+                  <button
+                    uk-tooltip="Jump to first step"
+                    id="control-first"
+                    class="uk-button"
+                  >
+                    <span uk-icon="icon: history"></span>
+                  </button>
+                  <button
+                    uk-tooltip="Jump to latest step"
+                    id="control-last"
+                    class="uk-button"
+                  >
+                    <span uk-icon="icon: future"></span>
+                  </button>
+                  <button
+                    uk-tooltip="One step backwards"
+                    id="control-backwards"
+                    class="uk-button"
+                  >
+                    <span uk-icon="icon: chevron-left"></span>
+                  </button>
+                  <button
+                    uk-tooltip="One step forward"
+                    id="control-forward"
+                    class="uk-button"
+                  >
+                    <span uk-icon="icon: chevron-right"></span>
+                  </button>
+                  <div
+                    class="uk-grid-small uk-child-width-1-2 uk-padding-small"
+                    uk-grid
+                  >
+                    <div>
+                      <input
+                        id="control-current-step"
+                        class="uk-text-center uk-width-1-1"
+                        uk-tooltip="Current Time Step<br>(Enter to change)"
+                        value="-"
+                      />
+                    </div>
+                    <div uk-tooltip="Number of Timesteps">
+                      / <span id="control-num-steps">-</span>
+                    </div>
                   </div>
                 </div>
               </div>
