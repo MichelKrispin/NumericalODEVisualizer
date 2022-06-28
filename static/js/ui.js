@@ -53,7 +53,7 @@ export const getSelections = () => {
   // Get div elements
   const functionSelection = document.getElementById(FUNCTION_ID).value;
   const solutionSelection = document.getElementById(SOLUTION_ID).value;
-  const y0Selection = parseFloat(document.getElementById(Y0_ID).value);
+  const y0Selection = document.getElementById(Y0_ID).value;
   const t0Selection = parseFloat(document.getElementById(T0_ID).value);
   const teSelection = parseFloat(document.getElementById(TE_ID).value);
   const methodSelection = document.getElementById(METHOD_ID).value;
@@ -65,12 +65,13 @@ export const getSelections = () => {
   if (!functionSelection || typeof functionSelection !== 'string') {
     throw 'Function must be a string';
   }
-  if (!solutionSelection || typeof solutionSelection !== 'string') {
+  if (typeof solutionSelection !== 'string') {
     throw 'Solution must be a string';
   }
+  if (!y0Selection || typeof y0Selection !== 'string') {
+    throw 'y0 must be a number or a string separated by ,';
+  }
   if (
-    isNaN(y0Selection) ||
-    typeof y0Selection !== 'number' ||
     isNaN(t0Selection) ||
     typeof t0Selection !== 'number' ||
     isNaN(teSelection) ||
@@ -155,7 +156,7 @@ export const initExampleButtons = () => {
         const data = exampleData[index];
         document.getElementById('select-function').value = data['function'];
         document.getElementById('select-solution').value = data['solution'];
-        document.getElementById('select-y0').value = parseFloat(data['y0']);
+        document.getElementById('select-y0').value = data['y0'];
         document.getElementById('select-t0').value = parseFloat(data['t0']);
         document.getElementById('select-te').value = parseFloat(data['te']);
       };

@@ -8,7 +8,7 @@ from examples import examples
 def create_functions(function, solution):
     code = ('from numpy import *\n'
             'def function(t, y):\n'
-            f'    return {function}\n'
+            f'    return np.array([{function}])\n'
             'def solution(t):\n'
             f'    return {solution}\n')
     exec(code, globals())
@@ -42,17 +42,26 @@ def compute():
     method_data = fetch_methods()[method_name]
     method = method_data['method']
     option = method_data['options'][request.json['option']]
-    y0 = request.json['y0']
+    y0 = np.array([float(v) for v in request.json['y0'].split(',')])
+    print(y0)
     t0 = request.json['t0']
     te = request.json['te']
+
+    solution_def = request.json['solution'] if 'solution' in request.json else None
     create_functions(
-        request.json['function'], request.json['solution'])
+        request.json['function'], solution_def)
 
     # Compute the approximation and solution
     t, y = method(function, y0, t0, te, option)
+    y_true = solution(t)
 
-    # Create the results and return them
-    result = {'t': t, 'y': y, 'y_true': solution(np.array(t)).tolist()}
+    # Convert results to be send over the network
+    t = t.tolist()
+    y = y.tolist()
+    y_true = y_true.tolist() if type(y_true) == np.ndarray else y_true
+
+    # Pack up the results and return them
+    result = {'t': t, 'y': y, 'y_true': y_true}
     return jsonify(result)
 
 

@@ -41,34 +41,53 @@ const updatePlot = (data) => {
  * @param {Array[float]} ys
  */
 const plot = (t, y, yTrue) => {
+  console.log(y);
+
+  const data = [];
   // Generate the data structures
-  const approximation = {
-    x: t,
-    y: y,
-    mode: 'lines',
-    name: 'Approximation',
-  };
+  y.map((yi, i) => {
+    data.push({
+      x: t,
+      y: yi,
+      mode: 'lines',
+      name: 'Approximation y' + i,
+    });
+  });
 
-  const solution = {
-    x: t,
-    y: yTrue,
-    mode: 'lines',
-    name: 'Solution',
-  };
+  if (yTrue) {
+    data.push({
+      x: t,
+      y: yTrue,
+      mode: 'lines',
+      name: 'Solution',
+      line: {
+        dash: 'dashdot',
+        width: 2,
+      },
+    });
+  }
 
-  updatePlot([approximation, solution]);
+  updatePlot(data);
 };
 
+const sliceData = (a, idx) => {
+  if (a) {
+    return a.map((x) => {
+      return x.slice(0, idx);
+    });
+  }
+  return undefined;
+};
 // =========================================================
 //                   Global Control
 // =========================================================
 
 export const showNextStep = () => {
   // Only do something if there is more
-  if (plotCreated && idx < YS.length) {
+  if (plotCreated && idx < Y[0].length) {
     idx++;
-    plot(T.slice(0, idx), Y.slice(0, idx), YS.slice(0, idx));
-    updatePlotControlInfo(idx, YS.length);
+    plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
+    updatePlotControlInfo(idx, Y[0].length);
   }
 };
 
@@ -76,23 +95,23 @@ export const showLastStep = () => {
   // Only do something if there is more
   if (plotCreated && idx > 2) {
     idx--;
-    plot(T.slice(0, idx), Y.slice(0, idx), YS.slice(0, idx));
-    updatePlotControlInfo(idx, YS.length);
+    plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
+    updatePlotControlInfo(idx, Y[0].length);
   }
 };
 
 export const showFirstStep = () => {
   if (!plotCreated) return;
   idx = 2;
-  plot(T.slice(0, idx), Y.slice(0, idx), YS.slice(0, idx));
-  updatePlotControlInfo(idx, YS.length);
+  plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
+  updatePlotControlInfo(idx, Y[0].length);
 };
 
 export const showLatestStep = () => {
   if (!plotCreated) return;
-  idx = YS.length;
-  plot(T.slice(0, idx), Y.slice(0, idx), YS.slice(0, idx));
-  updatePlotControlInfo(idx, YS.length);
+  idx = Y[0].length;
+  plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
+  updatePlotControlInfo(idx, Y[0].length);
 };
 
 export const showStepAt = (setStep) => {
@@ -100,11 +119,11 @@ export const showStepAt = (setStep) => {
     updatePlotControlInfo('-', '-');
     return;
   }
-  if (setStep > 1 && setStep < YS.length) {
+  if (setStep > 1 && setStep < Y[0].length) {
     idx = setStep;
-    plot(T.slice(0, idx), Y.slice(0, idx), YS.slice(0, idx));
+    plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
   }
-  updatePlotControlInfo(idx, YS.length);
+  updatePlotControlInfo(idx, Y[0].length);
 };
 
 /**
@@ -117,7 +136,7 @@ export const updatePlotData = (t, y, ys) => {
   T = t;
   Y = y;
   YS = ys;
-  idx = YS.length;
-  updatePlotControlInfo(idx, YS.length);
+  idx = Y[0].length;
+  updatePlotControlInfo(idx, Y[0].length);
   plot(T, Y, YS);
 };
