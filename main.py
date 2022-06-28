@@ -10,7 +10,7 @@ def create_functions(function, solution):
             'def function(t, y):\n'
             f'    return np.array([{function}])\n'
             'def solution(t):\n'
-            f'    return {solution}\n')
+            f'    return np.array([{solution}])\n')
     exec(code, globals())
 
 
@@ -35,15 +35,13 @@ def get_examples():
 
 @app.route('/compute', methods=['POST'])
 def compute():
-    print(request.json)
-
     # Fetch the selected values
     method_name = request.json['method']
     method_data = fetch_methods()[method_name]
     method = method_data['method']
     option = method_data['options'][request.json['option']]
+
     y0 = np.array([float(v) for v in request.json['y0'].split(',')])
-    print(y0)
     t0 = request.json['t0']
     te = request.json['te']
 

@@ -172,3 +172,9 @@ export const initExampleButtons = () => {
     }
   });
 };
+
+export const getUsedMethod = () => {
+  // Just return the currently selected method
+  const method = document.getElementById(METHOD_ID).value;
+  return method.charAt(0).toUpperCase() + method.slice(1);
+};

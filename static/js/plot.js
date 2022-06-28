@@ -1,4 +1,4 @@
-import { updatePlotControlInfo } from './ui.js';
+import { updatePlotControlInfo, getUsedMethod } from './ui.js';
 
 ('use strict');
 
@@ -30,7 +30,9 @@ const updatePlot = (data) => {
     Plotly.newPlot('plot', data, layout);
     plotCreated = true;
   } else {
-    Plotly.deleteTraces('plot', [-2, -1]);
+    while (document.getElementById('plot').data.length > 0) {
+      Plotly.deleteTraces('plot', 0);
+    }
     Plotly.addTraces('plot', data);
   }
 };
@@ -41,29 +43,31 @@ const updatePlot = (data) => {
  * @param {Array[float]} ys
  */
 const plot = (t, y, yTrue) => {
-  console.log(y);
-
-  const data = [];
   // Generate the data structures
+  const data = [];
+
+  const methodName = getUsedMethod();
   y.map((yi, i) => {
     data.push({
       x: t,
       y: yi,
       mode: 'lines',
-      name: 'Approximation y' + i,
+      name: methodName + ' y' + i,
     });
   });
 
   if (yTrue) {
-    data.push({
-      x: t,
-      y: yTrue,
-      mode: 'lines',
-      name: 'Solution',
-      line: {
-        dash: 'dashdot',
-        width: 2,
-      },
+    yTrue.map((yi, i) => {
+      data.push({
+        x: t,
+        y: yi,
+        mode: 'lines',
+        name: 'Solution ' + i + ' ' + methodName,
+        line: {
+          dash: 'dashdot',
+          width: 2,
+        },
+      });
     });
   }
 
@@ -71,7 +75,11 @@ const plot = (t, y, yTrue) => {
 };
 
 const sliceData = (a, idx) => {
+  // Slice each subarray, the array itself or return nothing
   if (a) {
+    if (typeof a[0] === 'number') {
+      return a.slice(0, idx);
+    }
     return a.map((x) => {
       return x.slice(0, idx);
     });
