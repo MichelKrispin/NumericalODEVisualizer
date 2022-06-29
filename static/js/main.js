@@ -2,6 +2,7 @@ import {
   initUpdatingSelectionUI,
   initPlotControlUI,
   initExampleButtons,
+  initFunctionEditor,
 } from './ui.js';
 import { initConnection } from './connection.js';
 
@@ -11,6 +12,7 @@ import { initConnection } from './connection.js';
 initUpdatingSelectionUI();
 initPlotControlUI();
 initExampleButtons();
+initFunctionEditor();
 
 // Initialize the connection to populate the UI
 initConnection();

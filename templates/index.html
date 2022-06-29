@@ -6,9 +6,27 @@
     <meta name="description" content="description" />
     <meta name="author" content="author" />
     <meta name="keywords" content="keywords" />
+
+    <!-- Math Equation Renderer -->
+    <script>
+      MathJax = {
+        loader: { load: ['input/asciimath', 'output/chtml'] },
+      };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      type="text/javascript"
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+
+    <!-- UI Kit CSS Framework -->
     <link rel="stylesheet" href="css/uikit.min.css" />
     <script src="js/uikit/uikit.min.js"></script>
     <script src="js/uikit/uikit-icons.min.js"></script>
+
+    <!-- Custom CSS -->
     <style type="text/css">
       body {
         height: 100vh;
@@ -42,22 +60,26 @@
                   >
                     Function
                   </div>
-                  <div class="uk-margin-remove-top">
-                    <input
-                      uk-tooltip="title: The ode: f(t, y) = y'(t)"
-                      class="uk-input"
-                      id="select-function"
-                      type="text"
-                      placeholder="Function"
-                      value="2-exp(-4*t)-2*y"
-                    />
+                  <div class="uk-margin-remove-top" uk-grid>
+                    <div class="uk-width-4-5">
+                      <input
+                        uk-tooltip="title: The ode: f(t, y) = y'(t)"
+                        class="uk-input"
+                        id="select-function"
+                        type="text"
+                        placeholder="Function"
+                        value="2-exp(-4*t)-2*y"
+                      />
+                    </div>
+                    <a
+                      class="uk-width-1-5 uk-margin-small-top"
+                      id="editor-open"
+                      href="#modal-overflow"
+                      uk-icon="icon: menu"
+                      uk-toggle
+                    >
+                    </a>
                   </div>
-                  <a
-                    class="uk-button uk-button-default"
-                    href="#modal-overflow"
-                    uk-toggle
-                    >Open</a
-                  >
 
                   <div
                     class="uk-heading-bullet uk-margin-small-top uk-text-bolder"
@@ -253,23 +275,36 @@
         </div>
 
         <div class="uk-modal-body" uk-overflow-auto>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
+          <div class="uk-child-width-1-1" uk-grid>
+            <div>
+              <ul>
+                <li>Multiple functions should be separated by , (comma).</li>
+                <li>y[0] means `y_0`. The indexing starts at 0.</li>
+                <li>
+                  Use ** for power of, the multiplication symbols (*) are hidden
+                  in the LaTeX equation.
+                </li>
+                <li>Otherwise use Python syntax.</li>
+              </ul>
+              <textarea
+                uk-tooltip="title: The function"
+                class="uk-textarea"
+                rows="4"
+                id="editor-function"
+              >
+              </textarea>
+              <p id="editor-math" style="text-align: center"></p>
+            </div>
+          </div>
         </div>
 
         <div class="uk-modal-footer uk-text-right">
           <button
             class="uk-button uk-button-default uk-modal-close"
+            id="editor-set-function"
             type="button"
           >
-            Close
+            Set Function
           </button>
         </div>
       </div>

@@ -178,3 +178,42 @@ export const getUsedMethod = () => {
   const method = document.getElementById(METHOD_ID).value;
   return method.charAt(0).toUpperCase() + method.slice(1);
 };
+
+// =========================================================
+//                   Function Editor
+// =========================================================
+
+const renderMathExpressionToLatex = () => {
+  // Replace some parts of the equation and then rerender the LaTeX expression
+  let expression = document.getElementById('editor-function').value;
+  expression = expression
+    .replace(/\[(\d)\]/g, '_{$1}') // [i] with _{i}
+    .replace(/\*\*/g, '^') // ** with ^
+    .replace(/\*/g, ''); // Remove multiplication *
+  const node = document.getElementById('editor-math');
+  MathJax.typesetClear([node]);
+  expression = '`' + expression.split(',').join('`<br />`') + '`';
+  node.innerHTML = expression;
+  MathJax.typesetPromise([node]);
+};
+
+export const initFunctionEditor = () => {
+  // Rerender the equation on each change
+  const functionArea = document.getElementById('editor-function');
+  functionArea.onkeyup = () => {
+    renderMathExpressionToLatex();
+  };
+
+  // On opening set the value of the editor text area
+  document.getElementById('editor-open').onclick = () => {
+    let currentFunction = document.getElementById('select-function').value;
+    functionArea.value = currentFunction.replace(/(, )|(,)/gm, ',\n');
+    renderMathExpressionToLatex();
+  };
+
+  // Edit the set function to update the function in the selection
+  document.getElementById('editor-set-function').onclick = () => {
+    document.getElementById('select-function').value =
+      document.getElementById('editor-function').value;
+  };
+};
