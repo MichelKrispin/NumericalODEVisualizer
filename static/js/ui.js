@@ -47,7 +47,7 @@ const updateSelectOption = (event) => {
 
 /**
  * Queries the selection divs.
- * @returns The values of the selection divs, [string, int]
+ * @returns The values of the selection divs, [string, ..., string]
  */
 export const getSelections = () => {
   // Get div elements
@@ -175,9 +175,14 @@ export const initExampleButtons = () => {
 };
 
 export const getUsedMethod = () => {
-  // Just return the currently selected method
+  // Just return the currently selected method and make it prettiert
+  // by capitalizing it and turning '_' into ' '.
   const method = document.getElementById(METHOD_ID).value;
-  return method.charAt(0).toUpperCase() + method.slice(1);
+  return method
+    .replace('_', ' ')
+    .replace(/\b[a-z](?=[a-z]{2})/g, function (letter) {
+      return letter.toUpperCase();
+    });
 };
 
 // =========================================================
