@@ -1,8 +1,8 @@
 import numpy as np
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, Optional, Tuple
 
 
-def method(f: Callable, y0: np.array, t0: np.array, te: np.array, options: Optional[dict] = None) -> Tuple[np.array, np.array]:
+def method(f: Callable, y0: np.array, t0: float, te: float, options: Optional[dict] = None) -> Tuple[np.array, np.array]:
     """Simple explicit euler method from [t0, te] with y(t0) = y0 and f(t, y) = y'.
 
     Args:

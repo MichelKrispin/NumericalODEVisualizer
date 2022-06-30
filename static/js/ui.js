@@ -168,6 +168,7 @@ export const initExampleButtons = () => {
     let idx = 0;
     while ((button = document.getElementById(buttonIdTemplate + idx))) {
       button.onclick = onClickFn(idx);
+      button.setAttribute('uk-tooltip', exampleData[idx]['tooltip']);
       idx++;
     }
   });
