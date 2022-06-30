@@ -23,8 +23,6 @@ app = Flask(__name__,
 @app.route('/')
 def index():
     methods = fetch_methods()
-    method_names = methods.keys()
-    print(methods)
     return render_template('index.html', methods=methods, examples=examples)
 
 
