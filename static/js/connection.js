@@ -3,7 +3,7 @@ import { getSelections } from './ui.js';
 
 ('use strict');
 
-const computePlots = () => {
+export const computePlots = () => {
   let functionSelection,
     solutionSelection,
     y0Selection,
@@ -61,8 +61,4 @@ export const getExampleData = (callback) => {
   };
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send();
-};
-
-export const initConnection = () => {
-  document.getElementById('compute-button').onclick = computePlots;
 };

@@ -1,8 +1,15 @@
-import { updatePlotControlInfo, getUsedMethod } from './ui.js';
+import {
+  updatePlotControlInfo,
+  getUsedMethod,
+  getCurrentCacheId,
+  addCacheToggle,
+} from './ui.js';
 
 ('use strict');
 
 // Save the variables globally
+let Cache = {};
+
 let T;
 let Y;
 let YS; // Solution
@@ -42,33 +49,44 @@ const updatePlot = (data) => {
  * @param {Array[float]} xs
  * @param {Array[float]} ys
  */
-const plot = (t, y, yTrue) => {
+const plot = () => {
   // Generate the data structures
   const data = [];
 
-  const methodName = getUsedMethod();
-  y.map((yi, i) => {
-    data.push({
-      x: t,
-      y: yi,
-      mode: 'lines',
-      name: methodName + ' y' + i,
-    });
-  });
-
-  if (yTrue) {
-    yTrue.map((yi, i) => {
-      data.push({
-        x: t,
-        y: yi,
-        mode: 'lines',
-        name: 'Solution ' + i + ' ' + methodName,
-        line: {
-          dash: 'dashdot',
-          width: 2,
-        },
+  for (const [key, elem] of Object.entries(Cache)) {
+    console.log(elem);
+    if (elem.show) {
+      const methodName = key
+        .split(';')[1]
+        .replace(/_/g, ' ')
+        .replace(/\b[a-z](?=[a-z]{2})/g, function (letter) {
+          return letter.toUpperCase();
+        });
+      console.log(methodName, elem);
+      elem.y.map((yi, i) => {
+        data.push({
+          x: elem.t.slice(0, idx),
+          y: yi.slice(0, idx),
+          mode: 'lines',
+          name: methodName + ' y' + i,
+        });
       });
-    });
+
+      if (elem.ys) {
+        elem.ys.map((yi, i) => {
+          data.push({
+            x: elem.t.slice(0, idx),
+            y: yi.slice(0, idx),
+            mode: 'lines',
+            name: 'Solution ' + i + ' ' + methodName,
+            line: {
+              dash: 'dashdot',
+              width: 2,
+            },
+          });
+        });
+      }
+    }
   }
 
   updatePlot(data);
@@ -141,10 +159,28 @@ export const showStepAt = (setStep) => {
  * @param {Array[float]} ys
  */
 export const updatePlotData = (t, y, ys) => {
+  // On updating add a new checkbox
+  const cacheId = getCurrentCacheId();
+
+  if (!(cacheId in Cache)) {
+    addCacheToggle(cacheId, (id, value) => {
+      // console.log('From plot', id, value);
+      Cache[id].show = value;
+      plot();
+    });
+  }
+
+  // Then update the cache and the plot
+  Cache[cacheId] = {
+    t: t,
+    y: y,
+    ys: ys,
+    show: true,
+  };
   T = t;
   Y = y;
   YS = ys;
   idx = Y[0].length;
   updatePlotControlInfo(idx, Y[0].length);
-  plot(T, Y, YS);
+  plot();
 };

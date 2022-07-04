@@ -1,4 +1,4 @@
-import { getExampleData } from './connection.js';
+import { getExampleData, computePlots } from './connection.js';
 import {
   showFirstStep,
   showNextStep,
@@ -8,6 +8,16 @@ import {
 } from './plot.js';
 
 ('use strict');
+
+// =========================================================
+//                   Compute Button
+// =========================================================
+
+export const initComputeButton = () => {
+  // Initialized the compute button with the computePlots
+  // to send everything to the server
+  document.getElementById('compute-button').onclick = computePlots;
+};
 
 // =========================================================
 //                 Selection Dropdowns
@@ -83,6 +93,7 @@ export const getSelections = () => {
       throw 't0 must be smaller than te';
     }
   }
+
   return [
     functionSelection,
     solutionSelection,
@@ -141,6 +152,60 @@ export const updatePlotControlInfo = (currentStep, maxStep) => {
   document.getElementById('control-num-steps').innerHTML = maxStep;
 };
 
+export const getCurrentCacheId = () => {
+  // Putting together the current cache id. `solution` is a bool whether
+  // id is for the solution or for the function.
+  const f = document.getElementById(FUNCTION_ID).value.replace(/\s/g, ''); // Remove all spaces
+  const method = document.getElementById(METHOD_ID).value;
+  const option = parseInt(
+    document.getElementById(OPTION_ID).value.split('-')[1]
+  );
+  const y0 = document.getElementById(Y0_ID).value;
+  const t0 = document.getElementById(T0_ID).value;
+  const te = document.getElementById(TE_ID).value;
+  return `${f};${method};${option};${y0};${t0};${te}`;
+};
+
+export const addCacheToggle = (cacheId, callbackFn) => {
+  // Adds a new checkbox which then calls the callbackFn on click
+  // with it the cacheId and the checkbox value (true or false)
+  // so callbackFn(cacheId, checkboxValue)
+  console.log(cacheId);
+
+  const splitted = cacheId.split(';');
+  const pretty =
+    splitted[1]
+      .replace(/_/g, ' ')
+      .replace(/\b[a-z](?=[a-z]{2})/g, function (letter) {
+        return letter.toUpperCase();
+      }) + // Make title of method name
+    ': `' +
+    splitted[0]
+      .replace(/\[(\d)\]/g, '_{$1}') // [i] with _{i}
+      .replace(/\*\*/g, '^') // ** with ^
+      .replace(/\*/g, '') +
+    `; y(0) = ${splitted[3]}; t \\in [${splitted[4]}, ${splitted[5]}]\``;
+
+  const plotCacheDiv = document.getElementById('plot-cache');
+  plotCacheDiv.innerHTML += `
+<label>
+  <input
+    id="plot-cache-${cacheId}"
+    class="uk-checkbox"
+    type="checkbox"
+    checked
+  />
+  ${pretty}
+</label>
+`;
+  MathJax.typesetPromise([plotCacheDiv]);
+
+  const checkbox = document.getElementById(`plot-cache-${cacheId}`);
+  checkbox.onclick = () => {
+    callbackFn(cacheId, checkbox.checked);
+  };
+};
+
 // =========================================================
 //                    Example Buttons
 // =========================================================
@@ -154,11 +219,11 @@ export const initExampleButtons = () => {
     const onClickFn = (index) => {
       return () => {
         const data = exampleData[index];
-        document.getElementById('select-function').value = data['function'];
-        document.getElementById('select-solution').value = data['solution'];
-        document.getElementById('select-y0').value = data['y0'];
-        document.getElementById('select-t0').value = parseFloat(data['t0']);
-        document.getElementById('select-te').value = parseFloat(data['te']);
+        document.getElementById(FUNCTION_ID).value = data['function'];
+        document.getElementById(SOLUTION_ID).value = data['solution'];
+        document.getElementById(Y0_ID).value = data['y0'];
+        document.getElementById(T0_ID).value = parseFloat(data['t0']);
+        document.getElementById(TE_ID).value = parseFloat(data['te']);
       };
     };
 
@@ -174,12 +239,15 @@ export const initExampleButtons = () => {
   });
 };
 
+/**
+ * Just return the currently selected method and make it prettier
+ * by capitalizing it and turning '_' into ' '.
+ * @returns String
+ */
 export const getUsedMethod = () => {
-  // Just return the currently selected method and make it prettiert
-  // by capitalizing it and turning '_' into ' '.
   const method = document.getElementById(METHOD_ID).value;
   return method
-    .replace('_', ' ')
+    .replace(/_/g, ' ')
     .replace(/\b[a-z](?=[a-z]{2})/g, function (letter) {
       return letter.toUpperCase();
     });
@@ -212,14 +280,14 @@ export const initFunctionEditor = () => {
 
   // On opening set the value of the editor text area
   document.getElementById('editor-open').onclick = () => {
-    let currentFunction = document.getElementById('select-function').value;
+    let currentFunction = document.getElementById(FUNCTION_ID).value;
     functionArea.value = currentFunction.replace(/(, )|(,)/gm, ',\n');
     renderMathExpressionToLatex();
   };
 
   // Edit the set function to update the function in the selection
   document.getElementById('editor-set-function').onclick = () => {
-    document.getElementById('select-function').value =
+    document.getElementById(FUNCTION_ID).value =
       document.getElementById('editor-function').value;
   };
 };
