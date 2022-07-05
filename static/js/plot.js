@@ -1,9 +1,4 @@
-import {
-  updatePlotControlInfo,
-  getUsedMethod,
-  getCurrentCacheId,
-  addCacheToggle,
-} from './ui.js';
+import { getCurrentCacheId, addCacheToggle } from './ui.js';
 
 ('use strict');
 
@@ -13,7 +8,6 @@ let Cache = {};
 let T;
 let Y;
 let YS; // Solution
-let idx; // The current step
 
 let plotCreated = false;
 let layout = {
@@ -65,8 +59,8 @@ const plot = () => {
       console.log(methodName, elem);
       elem.y.map((yi, i) => {
         data.push({
-          x: elem.t.slice(0, idx),
-          y: yi.slice(0, idx),
+          x: elem.t,
+          y: yi,
           mode: 'lines',
           name: methodName + ' y' + i,
         });
@@ -75,8 +69,8 @@ const plot = () => {
       if (elem.ys) {
         elem.ys.map((yi, i) => {
           data.push({
-            x: elem.t.slice(0, idx),
-            y: yi.slice(0, idx),
+            x: elem.t,
+            y: yi,
             mode: 'lines',
             name: 'Solution ' + i + ' ' + methodName,
             line: {
@@ -90,66 +84,6 @@ const plot = () => {
   }
 
   updatePlot(data);
-};
-
-const sliceData = (a, idx) => {
-  // Slice each subarray, the array itself or return nothing
-  if (a) {
-    if (typeof a[0] === 'number') {
-      return a.slice(0, idx);
-    }
-    return a.map((x) => {
-      return x.slice(0, idx);
-    });
-  }
-  return undefined;
-};
-// =========================================================
-//                   Global Control
-// =========================================================
-
-export const showNextStep = () => {
-  // Only do something if there is more
-  if (plotCreated && idx < Y[0].length) {
-    idx++;
-    plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
-    updatePlotControlInfo(idx, Y[0].length);
-  }
-};
-
-export const showLastStep = () => {
-  // Only do something if there is more
-  if (plotCreated && idx > 2) {
-    idx--;
-    plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
-    updatePlotControlInfo(idx, Y[0].length);
-  }
-};
-
-export const showFirstStep = () => {
-  if (!plotCreated) return;
-  idx = 2;
-  plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
-  updatePlotControlInfo(idx, Y[0].length);
-};
-
-export const showLatestStep = () => {
-  if (!plotCreated) return;
-  idx = Y[0].length;
-  plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
-  updatePlotControlInfo(idx, Y[0].length);
-};
-
-export const showStepAt = (setStep) => {
-  if (!plotCreated) {
-    updatePlotControlInfo('-', '-');
-    return;
-  }
-  if (setStep > 1 && setStep < Y[0].length) {
-    idx = setStep;
-    plot(T.slice(0, idx), sliceData(Y, idx), sliceData(YS, idx));
-  }
-  updatePlotControlInfo(idx, Y[0].length);
 };
 
 /**
@@ -180,7 +114,5 @@ export const updatePlotData = (t, y, ys) => {
   T = t;
   Y = y;
   YS = ys;
-  idx = Y[0].length;
-  updatePlotControlInfo(idx, Y[0].length);
   plot();
 };

@@ -1,6 +1,5 @@
 import {
   initUpdatingSelectionUI,
-  initPlotControlUI,
   initExampleButtons,
   initFunctionEditor,
   initComputeButton,
@@ -10,7 +9,6 @@ import {
 
 // Initialize the UI
 initUpdatingSelectionUI();
-initPlotControlUI();
 initExampleButtons();
 initFunctionEditor();
 initComputeButton();
