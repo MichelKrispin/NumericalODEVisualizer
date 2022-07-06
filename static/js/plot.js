@@ -48,7 +48,6 @@ const plot = () => {
   const data = [];
 
   for (const [key, elem] of Object.entries(Cache)) {
-    console.log(elem);
     if (elem.show) {
       const methodName = key
         .split(';')[1]
@@ -56,7 +55,6 @@ const plot = () => {
         .replace(/\b[a-z](?=[a-z]{2})/g, function (letter) {
           return letter.toUpperCase();
         });
-      console.log(methodName, elem);
       elem.y.map((yi, i) => {
         data.push({
           x: elem.t,
@@ -98,7 +96,6 @@ export const updatePlotData = (t, y, ys) => {
 
   if (!(cacheId in Cache)) {
     addCacheToggle(cacheId, (id, value) => {
-      // console.log('From plot', id, value);
       Cache[id].show = value;
       plot();
     });

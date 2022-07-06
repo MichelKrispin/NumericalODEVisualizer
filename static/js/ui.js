@@ -133,7 +133,6 @@ export const addCacheToggle = (cacheId, callbackFn) => {
   // Adds a new checkbox which then calls the callbackFn on click
   // with it the cacheId and the checkbox value (true or false)
   // so callbackFn(cacheId, checkboxValue)
-  console.log(cacheId);
 
   const splitted = cacheId.split(';');
   const pretty =
@@ -150,7 +149,9 @@ export const addCacheToggle = (cacheId, callbackFn) => {
     `; y(0) = ${splitted[3]}; t \\in [${splitted[4]}, ${splitted[5]}]\``;
 
   const plotCacheDiv = document.getElementById('plot-cache');
-  plotCacheDiv.innerHTML += `
+  plotCacheDiv.insertAdjacentHTML(
+    'beforeend',
+    `
 <label>
   <input
     id="plot-cache-${cacheId}"
@@ -160,7 +161,8 @@ export const addCacheToggle = (cacheId, callbackFn) => {
   />
   ${pretty}
 </label>
-`;
+`
+  );
   MathJax.typesetPromise([plotCacheDiv]);
 
   const checkbox = document.getElementById(`plot-cache-${cacheId}`);
