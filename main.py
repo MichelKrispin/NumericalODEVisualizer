@@ -7,10 +7,6 @@ from flask import Flask, jsonify, render_template, request
 from examples import examples
 from methods.fetch import fetch_methods
 
-# import warnings
-
-# warnings.filterwarnings('error')
-
 
 def create_functions(function, solution):
     code = ('from numpy import *\n'
