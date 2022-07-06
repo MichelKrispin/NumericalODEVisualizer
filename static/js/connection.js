@@ -31,7 +31,11 @@ export const computePlots = () => {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       const data = JSON.parse(xhr.response);
-      updatePlotData(data['t'], data['y'], data['y_true']);
+      if ('error' in data) {
+        alert(data['error']);
+      } else {
+        updatePlotData(data['t'], data['y'], data['y_true']);
+      }
     }
   };
   xhr.setRequestHeader('Content-Type', 'application/json');

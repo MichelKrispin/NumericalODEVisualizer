@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
+import traceback
+
 import numpy as np
 from flask import Flask, jsonify, render_template, request
-from methods.fetch import fetch_methods
+
 from examples import examples
+from methods.fetch import fetch_methods
+
+# import warnings
+
+# warnings.filterwarnings('error')
 
 
 def create_functions(function, solution):
@@ -33,6 +40,8 @@ def get_examples():
 
 @app.route('/compute', methods=['POST'])
 def compute():
+    np.seterr(all='raise')
+
     # Fetch the selected values
     method_name = request.json['method']
     method_data = fetch_methods()[method_name]
@@ -43,13 +52,17 @@ def compute():
     t0 = request.json['t0']
     te = request.json['te']
 
-    solution_def = request.json['solution'] if 'solution' in request.json else None
-    create_functions(
-        request.json['function'], solution_def)
+    solution_def = request.json[
+        'solution'] if 'solution' in request.json else None
+    create_functions(request.json['function'], solution_def)
 
-    # Compute the approximation and solution
-    t, y = method(function, y0, t0, te, option)
-    y_true = solution(t)
+    try:
+        # Compute the approximation and solution
+        t, y = method(function, y0, t0, te, option)
+        y_true = solution(t)
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({'error': f'[ERROR]\n{str(e)}'}), 500
 
     # Convert results to be send over the network
     t = t.tolist()
