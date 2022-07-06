@@ -26,10 +26,16 @@ export const computePlots = () => {
     return;
   }
 
+  const notification = UIkit.notification({
+    message: '<div uk-spinner></div> &nbsp; Computing...',
+    pos: 'top-center',
+    timeout: 0,
+  });
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '/compute', true);
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
+      notification.close();
       const data = JSON.parse(xhr.response);
       if ('error' in data) {
         alert(data['error']);
@@ -39,6 +45,7 @@ export const computePlots = () => {
     }
   };
   xhr.setRequestHeader('Content-Type', 'application/json');
+
   xhr.send(
     JSON.stringify({
       function: functionSelection,
