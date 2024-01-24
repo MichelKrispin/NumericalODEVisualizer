@@ -5,7 +5,7 @@ from typing import Callable, Optional, Tuple
 def method(
     f: Callable, y0: np.ndarray, t0: float, te: float, options: Optional[dict] = None
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Improved euler method with half step size from [t0, te] with y(t0) = y0 and f(t, y) = y'.
+    """A new method.
 
     Args:
         f (Callable): f(t, y) = y'(t)
@@ -22,16 +22,16 @@ def method(
     t = np.arange(t0, te, h)  # Create the t values
     y = np.zeros((len(y0), len(t)))  # Create the resulting y values
     y[:, 0] = y0  # Store the initial value
-    for n in range(len(t) - 1):
-        h_half = h / 2
-        y_n = y[:, n]
-        y[:, n + 1] = y_n + h * f(t[n] + h_half, y_n + h_half * f(t[n], y_n))
+    # Then do something
+    if options is not None and "a" in options["data"]:
+        print(options["data"]["a"])
     return t, y
 
 
 options = [
-    {"name": "Step Size (h): 0.1", "data": 0.1},
+    {
+        "name": "Option",
+        "data": {"a": 1, "b": 2},
+    },
     {"name": "Step Size (h): 0.01", "data": 0.01},
-    {"name": "Step Size (h): 0.001", "data": 0.001},
-    {"name": "Step Size (h): 0.0001", "data": 0.0001},
 ]

@@ -2,18 +2,16 @@ import numpy as np
 from typing import Callable, Optional, Tuple
 
 
-def method(f: Callable,
-           y0: np.array,
-           t0: float,
-           te: float,
-           options: Optional[dict] = None) -> Tuple[np.array, np.array]:
+def method(
+    f: Callable, y0: np.ndarray, t0: float, te: float, options: Optional[dict] = None
+) -> Tuple[np.ndarray, np.ndarray]:
     """Adaptive euler method wit simple step size control from [t0, te] with y(t0) = y0 and f(t, y) = y'.
 
     Args:
         f (Callable): f(t, y) = y'(t)
-        y0 (np.array): Initial value
-        t0 (np.array): Left boundary
-        te (np.array): Right boundary
+        y0 (np.ndarray): Initial value
+        t0 (np.ndarray): Left boundary
+        te (np.ndarray): Right boundary
         options (Optional[dict], optional): An optionial options dictionary.
 
     Returns:
@@ -49,8 +47,5 @@ def method(f: Callable,
 
 
 options = [
-    {
-        'name': 'No options.',
-        'data': None
-    },
+    {"name": "No options.", "data": None},
 ]
